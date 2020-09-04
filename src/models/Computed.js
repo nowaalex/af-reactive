@@ -7,7 +7,7 @@ const FLAG_NOT_FIRST_RUN = 2;
 
 class Computed extends Atom {
 
-    constructor( getValue, name = "computed" ){
+    constructor( getValue, name = "Computed" ){
         super();
 
         this._m = 0;

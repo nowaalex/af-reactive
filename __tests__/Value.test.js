@@ -1,9 +1,9 @@
-import Primitive from "../src/models/Primitive";
+import Value from "../src/models/Value";
 import runInAction from "../src/utils/runInAction";
 import autorun from "../src/utils/autorun";
 
-test( "Primitive get/set works", () => {
-    const p = new Primitive( 1 );
+test( "Value get/set works", () => {
+    const p = new Value( 1 );
     expect( p._v ).toBe( 1 );
 
     const results = [];

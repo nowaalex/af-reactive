@@ -1,4 +1,4 @@
-import Primitive from "../src/models/Primitive";
+import Value from "../src/models/Value";
 import Computed from "../src/models/Computed";
 import Reaction from "../src/models/Reaction";
 import runInAction from "../src/utils/runInAction";
@@ -6,8 +6,8 @@ import globalState from "../src/globalState";
 
 test( "Computed shallow works", () => {
 
-    const p = new Primitive( 1 );
-    const p2 = new Primitive( 10 );
+    const p = new Value( 1 );
+    const p2 = new Value( 10 );
     
     let cRuns = 0;
 
@@ -72,9 +72,9 @@ test( "Computed shallow works", () => {
 });
 
 test( "Computed deep works", () => {
-    const p1 = new Primitive( 2 );
-    const p2 = new Primitive( 10 );
-    const p3 = new Primitive( 100 );
+    const p1 = new Value( 2 );
+    const p2 = new Value( 10 );
+    const p3 = new Value( 100 );
 
     let c1Runs = 0;
     let c2Runs = 0;

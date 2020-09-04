@@ -1,7 +1,7 @@
 import globalState from "../globalState";
 
 class Reaction extends Set {
-    constructor( fn, name = "reaction" ){
+    constructor( fn, name = "Reaction" ){
         super();
         this.fn = fn;
 

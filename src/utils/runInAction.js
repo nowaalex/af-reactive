@@ -5,13 +5,26 @@ const runInAction = fn => {
     globalState.reaction = null;
     globalState.inBatch++;
     fn();
-    if( --globalState.inBatch === 0 && !globalState.isRunningReactions && globalState.pendingReactions.length ){
+    if( --globalState.inBatch === 0 && !globalState.isRunningReactions ){
+        
+        const list = globalState.pendingReactions;
+
         globalState.isRunningReactions = true;
-        for( let reaction of globalState.pendingReactions ){
-            reaction.run();
+
+        /* array is pre-allocated, so it is safe to neglect length */
+        for( let j = 0, reaction; reaction = list[ j ]; j++ ){
+            list[ j ] = null;
             reaction.pending = false;
+            reaction.run();
+
+            if( process.env.NODE_ENV !== "production" ){
+                if( j === 254 ){
+                    throw new Error( "Reaction, which produces reaction, which produces reaction, etc. chain length must be < 255" );
+                }
+            }
         }
-        globalState.pendingReactions = [];
+
+        globalState.reactionIndex = 0;
         globalState.isRunningReactions = false;
 
         if( globalState.pendingUnobservations.length ){

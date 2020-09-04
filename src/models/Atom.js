@@ -14,7 +14,7 @@ class Atom extends Set {
         for( let reaction of this ){
             if( reaction.pending === false ){
                 reaction.pending = true;
-                globalState.pendingReactions.push( reaction );
+                globalState.pendingReactions[ globalState.reactionIndex++ ] = reaction;
             }
         }
     }

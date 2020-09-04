@@ -1,8 +1,8 @@
 import Atom from "./Atom";
 
-class Primitive extends Atom { 
+class Value extends Atom { 
 
-    constructor( v, name = "primitive" ){
+    constructor( v, name = "Value" ){
         super();
         this._v = v;
         this.name = name;
@@ -21,4 +21,4 @@ class Primitive extends Atom {
     }
 }
 
-export default Primitive;
+export default Value;
