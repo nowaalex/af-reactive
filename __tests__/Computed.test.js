@@ -74,9 +74,11 @@ test( "Computed shallow works", () => {
 test( "Computed deep works", () => {
     const p1 = new Primitive( 2 );
     const p2 = new Primitive( 10 );
+    const p3 = new Primitive( 100 );
 
     let c1Runs = 0;
     let c2Runs = 0;
+    let c3Runs = 0;
     
     const c1 = new Computed(() => {
         c1Runs++;
@@ -88,33 +90,34 @@ test( "Computed deep works", () => {
         return c1.get() * p2.get();
     }, "c2" );
 
+    const c3 = new Computed(() => {
+        c3Runs++;
+        return c2.get() * p3.get();
+    }, "c3" );
+
     const res = [];
 
     const A = new Reaction(() => {
-        res.push(c2.get());
+        res.push(c3.get());
     });
 
-    expect( c1Runs ).toBe( 0 );
-    expect( c2Runs ).toBe( 0 );
+    expect([ c1Runs, c2Runs, c3Runs ]).toEqual([ 0, 0, 0 ]);
 
     A.run();
 
-    expect( c1Runs ).toBe( 1 );
-    expect( c2Runs ).toBe( 1 );
+    expect([ c1Runs, c2Runs, c3Runs ]).toEqual([ 1, 1, 1 ]);
 
     runInAction(() => {
         p1.set( 3 );
     });
 
-    expect( c1Runs ).toBe( 2 );
-    expect( c2Runs ).toBe( 2 );
-
+    expect([ c1Runs, c2Runs, c3Runs ]).toEqual([ 2, 2, 2 ]);
+    
     runInAction(() => {
         p2.set( 5 );
-    })
+    });
 
-    expect( res ).toEqual([ 100, 150, 75 ]);
+    expect([ c1Runs, c2Runs, c3Runs ]).toEqual([ 2, 3, 3 ]);
 
-    expect( c1Runs ).toBe( 2 );
-    expect( c2Runs ).toBe( 3 );
+    expect( res ).toEqual([ 10000, 15000, 7500 ]);
 });
