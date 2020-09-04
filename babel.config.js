@@ -4,29 +4,19 @@ const plugins = [
     [ "@babel/plugin-proposal-object-rest-spread", { loose: true, useBuiltIns: true }]
 ];
 
-
-const presets = [];
-
 module.exports = api => {
 
-    const presetEnvOptions = {
-        loose: true
-    };
+    const presetEnvOptions = { loose: true };
 
-    if( api.env( "test" ) ){
-        presetEnvOptions.targets = {
-            node: "current"
-        };
-    }
-    else{
+    if( !api.env( "test" ) ){
         presetEnvOptions.modules = false;
         plugins.push([ "@babel/plugin-transform-runtime", { useESModules: true }]);
     }
 
-    presets.unshift([ "@babel/preset-env", presetEnvOptions ]);
-
     return {
         plugins,
-        presets
+        presets: [
+            [ "@babel/preset-env", presetEnvOptions ]
+        ]
     };
 };

@@ -6,7 +6,8 @@
   "author": "alex <nowaalex@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "rollup --config rollup.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.11.5",
@@ -14,9 +15,11 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "@rollup/plugin-babel": "^5.2.0",
     "browserslist": "^4.14.0",
     "jest": "^26.4.2",
-    "rollup": "^2.26.9"
+    "rollup": "^2.26.10",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "browserslist": [
     "supports proxy and > 0.5%"
