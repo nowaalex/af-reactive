@@ -20,16 +20,14 @@ class Computed extends Atom {
             if( this._m & FLAG_NOT_FIRST_RUN ){
                 if( this._v !== v ){
                     this._v = v;
-                    runInAction(() => {
-                        this.reportChanged();
-                    });
+                    runInAction(() => this.reportChanged());
                 }
             }
             else {
                 this._v = v;
                 this._m |= FLAG_NOT_FIRST_RUN;
             }
-        }, `reaction_${name}` );
+        }, `Reaction_${name}` );
     }
 
     onBecomeObserved(){

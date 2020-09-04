@@ -8,7 +8,7 @@ class Atom extends Set {
     reportChanged(){
         if( process.env.NODE_ENV !== "production" ){
             if( globalState.inBatch === 0 ){
-                throw new Error( "transactions must not be 0" );
+                throw new Error( "All observable changes must be done inside runInAction" );
             }
         }
         for( let reaction of this ){
