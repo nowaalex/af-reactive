@@ -1,0 +1,24 @@
+{
+  "name": "af-reactive",
+  "version": "1.0.0",
+  "description": "lighter mobx implementation",
+  "main": "index.js",
+  "author": "alex <nowaalex@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "browserslist": "^4.14.0",
+    "jest": "^26.4.2",
+    "rollup": "^2.26.9"
+  },
+  "browserslist": [
+    "supports proxy and > 0.5%"
+  ]
+}
