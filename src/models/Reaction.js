@@ -1,9 +1,11 @@
 import globalState from "../globalState";
 
-class Reaction extends Set {
-    constructor( fn, name = "Reaction" ){
-        super();
+class Reaction {
+    constructor( fn, name = "Reaction", immediate ){
+
         this.fn = fn;
+        this.atoms = new Set();
+        this.immediate = !!immediate;
 
         /* used to prevent duplicates in general pending queue while using simple array instead of new Set. */
         this.pending = false;
@@ -16,19 +18,19 @@ class Reaction extends Set {
         const runTs = performance.now();        
         this.fn();
         globalState.reaction = prevObserver;
-        for( let atom of this ){
+        for( let atom of this.atoms ){
             if( runTs > atom.observedTs ){
                 atom._rm( this );
-                this.delete( atom );
+                this.atoms.delete( atom );
             }
         }
     }
 
     dispose(){
-        for( let atom of this ){
+        for( let atom of this.atoms ){
             atom._rm( this );
         }
-        this.clear();
+        this.atoms.clear();
     }
 }
 

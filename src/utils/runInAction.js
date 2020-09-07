@@ -12,19 +12,21 @@ const runInAction = fn => {
         globalState.isRunningReactions = true;
 
         /* array is pre-allocated, so it is safe to neglect length */
-        for( let j = 0, reaction; reaction = list[ j ]; j++ ){
-            list[ j ] = null;
+        for( let reaction; reaction = list[ globalState.firstReactionIndex ]; globalState.firstReactionIndex++ ){
+            list[ globalState.firstReactionIndex ] = null;
             reaction.pending = false;
+            console.log( "ee", reaction.name );
             reaction.run();
+            
 
             if( process.env.NODE_ENV !== "production" ){
-                if( j === 254 ){
+                if( globalState.firstReactionIndex === 254 ){
                     throw new Error( "Reaction, which produces reaction, which produces reaction, etc. chain length must be < 255" );
                 }
             }
         }
 
-        globalState.reactionIndex = 0;
+        globalState.lastReactionIndex = globalState.firstReactionIndex = 128;
         globalState.isRunningReactions = false;
 
         if( globalState.pendingUnobservations.length ){

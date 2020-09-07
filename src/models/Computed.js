@@ -27,7 +27,7 @@ class Computed extends Atom {
                 this._v = v;
                 this._m |= FLAG_NOT_FIRST_RUN;
             }
-        }, `Reaction_${name}` );
+        }, `Reaction_${name}`, true );
     }
 
     onBecomeObserved(){

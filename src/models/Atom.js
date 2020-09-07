@@ -1,7 +1,8 @@
 import globalState from "../globalState";
 
-class Atom extends Set {
+class Atom {
 
+    reactions = [];
     observedTs = 0;
     isPendingUnobservation = false;
 
@@ -11,10 +12,10 @@ class Atom extends Set {
                 throw new Error( "All observable changes must be done inside runInAction" );
             }
         }
-        for( let reaction of this ){
+        for( let reaction of this.reactions ){
             if( reaction.pending === false ){
                 reaction.pending = true;
-                globalState.pendingReactions[ globalState.reactionIndex++ ] = reaction;
+                globalState.pendingReactions[ reaction.immediate ? --globalState.firstReactionIndex : globalState.lastReactionIndex++ ] = reaction;
             }
         }
     }
@@ -22,20 +23,28 @@ class Atom extends Set {
     reportObserved(){
         if( globalState.reaction ){
             this.observedTs = performance.now();
-            const prevSize = this.size;
-            globalState.reaction.add( this );
-            this.add( globalState.reaction );
+            const prevSize = this.reactions.length;
+            globalState.reaction.atoms.add( this );
             this.isPendingUnobservation = false;
-            if( prevSize === 0 && this.onBecomeObserved ){
-                this.onBecomeObserved();
+
+            if( !this.reactions.includes( globalState.reaction ) ){
+                this.reactions[ globalState.reaction.immediate ? "unshift" : "push" ]( globalState.reaction );
+                if( prevSize === 0 && this.onBecomeObserved ){
+                    this.onBecomeObserved();
+                }
             }
+            
         }
     }
 
     _rm( reaction ){
-        if( this.delete( reaction ) && this.size === 0 && this.isPendingUnobservation === false && this.onBecomeUnobserved ){
-            this.isPendingUnobservation = true;
-            globalState.pendingUnobservations.push( this );
+        const idx = this.reactions.indexOf( reaction );
+        if( idx !== -1 ){
+            this.reactions.splice( idx, 1 );
+            if( this.reactions.length === 0 && this.isPendingUnobservation === false && this.onBecomeUnobserved ){
+                this.isPendingUnobservation = true;
+                globalState.pendingUnobservations.push( this );
+            }
         }
     }
 }

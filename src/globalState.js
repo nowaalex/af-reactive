@@ -7,7 +7,8 @@ const globalState = {
         Reactions can produce new reactions, so it is better to preallocate once
         and use reactionIndex as an indicator of a place to write new reaction.
     */
-    reactionIndex: 0,
+    lastReactionIndex: 128,
+    firstReactionIndex: 128,
     pendingReactions: Array( 256 ).fill( null ),
 
     pendingUnobservations: []

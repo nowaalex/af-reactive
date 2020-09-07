@@ -18,7 +18,7 @@ test( "Value get/set works", () => {
     });
 
     expect( p._v ).toBe( 20 );
-    expect( p.size ).toBe( 1 );
+    expect( p.reactions.length ).toBe( 1 );
 
     expect( results ).toEqual([ 1, 20 ]);
 
@@ -32,7 +32,7 @@ test( "Value get/set works", () => {
 
     dispose();
 
-    expect( p.size ).toBe( 0 );
+    expect( p.reactions.length ).toBe( 0 );
 
     expect( results ).toEqual([ 1, 20, 10, 20 ]);
 });
